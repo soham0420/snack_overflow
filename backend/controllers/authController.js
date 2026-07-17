@@ -6,6 +6,13 @@ const {
 } = require("../models/User");
 
 const calculateRegistrationRisk = require("../services/registrationRisk");
+const calculateLoginRisk = require("../services/loginRisk");
+
+const generateSecurityInsights = require("../services/securityInsights");
+
+const {
+    createLoginRecord
+} = require("../models/LoginHistory");
 
 const register = async (req, res) => {
 
@@ -64,10 +71,15 @@ const login = async (req, res) => {
     try {
 
         const {
-            email,
-            password
-        } = req.body;
+    email,
+    password,
+    device,
+    location,
+    vpnDetected
+} = req.body;
 
+const failedAttempts = 0;
+const loginTime = new Date().getHours();
 
         // Find user
         const user = findUserByEmail(email);
@@ -94,6 +106,48 @@ const login = async (req, res) => {
             });
         }
 
+        const risk = calculateLoginRisk({
+
+    device,
+    location,
+    loginTime,
+    failedAttempts,
+    vpnDetected
+
+});
+
+
+const insights = generateSecurityInsights({
+
+    device,
+    location,
+    failedAttempts,
+    vpnDetected
+
+});
+
+
+createLoginRecord({
+
+    userId: user.id,
+
+    device,
+
+    location,
+
+    loginTime,
+
+    failedAttempts,
+
+    vpnDetected,
+
+    riskScore: risk.riskScore,
+
+    decision: risk.decision,
+
+    reasons: risk.reasons
+
+});
 
         // Create JWT token
 
@@ -111,15 +165,33 @@ const login = async (req, res) => {
 
         res.json({
 
-            message: "Login successful",
+    message: "Login successful",
 
-            token,
+    token,
 
-            user: {
-                email: user.email
-            }
+    security: {
 
-        });
+        riskScore: risk.riskScore,
+
+        riskLevel: risk.riskLevel,
+
+        decision: risk.decision,
+
+        reasons: risk.reasons,
+
+        insights: insights.insights,
+
+        recommendations: insights.recommendations
+
+    },
+
+    user: {
+
+        email: user.email
+
+    }
+
+});
 
 
     } catch (err) {

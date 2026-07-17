@@ -60,11 +60,25 @@ function calculateLoginRisk(loginData) {
     }
 
 
-    return {
-        riskScore,
-        decision,
-        reasons
-    };
+   let riskLevel;
+
+if(riskScore >= 60){
+    riskLevel="HIGH";
+}
+else if(riskScore >=30){
+    riskLevel="MEDIUM";
+}
+else{
+    riskLevel="LOW";
+}
+
+
+return {
+    riskScore,
+    riskLevel,
+    decision,
+    reasons
+};
 }
 
 

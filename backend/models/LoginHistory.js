@@ -1,52 +1,87 @@
-const mongoose = require("mongoose");
+const db = require("../database/database");
 
 
-const loginHistorySchema = new mongoose.Schema({
+db.exec(`
+CREATE TABLE IF NOT EXISTS LoginHistory (
 
-    userId: {
-        type: String,
-        required: true
-    },
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
 
-    device: {
-        type: String
-    },
+    userId INTEGER,
 
-    location: {
-        type: String
-    },
+    device TEXT,
 
-    loginTime: {
-        type: Date,
-        default: Date.now
-    },
+    location TEXT,
 
-    failedAttempts: {
-        type: Number,
-        default: 0
-    },
+    loginTime TEXT,
 
-    vpnDetected: {
-        type: Boolean,
-        default: false
-    },
+    failedAttempts INTEGER DEFAULT 0,
 
-    riskScore: {
-        type: Number
-    },
+    vpnDetected INTEGER DEFAULT 0,
 
-    decision: {
-        type: String
-    },
+    riskScore INTEGER,
 
-    reasons: [
-        String
-    ]
+    decision TEXT,
 
-});
+    reasons TEXT
 
-
-module.exports = mongoose.model(
-    "LoginHistory",
-    loginHistorySchema
 );
+`);
+
+
+
+function createLoginRecord(data){
+
+    const stmt = db.prepare(`
+        INSERT INTO LoginHistory
+        (
+            userId,
+            device,
+            location,
+            loginTime,
+            failedAttempts,
+            vpnDetected,
+            riskScore,
+            decision,
+            reasons
+        )
+
+        VALUES (?,?,?,?,?,?,?,?,?)
+    `);
+
+
+    stmt.run(
+        data.userId,
+        data.device,
+        data.location,
+        data.loginTime,
+        data.failedAttempts,
+        data.vpnDetected ? 1 : 0,
+        data.riskScore,
+        data.decision,
+        JSON.stringify(data.reasons)
+    );
+
+}
+
+
+
+function getLoginHistory(userId){
+
+    const stmt = db.prepare(`
+        SELECT *
+        FROM LoginHistory
+        WHERE userId = ?
+        ORDER BY id DESC
+    `);
+
+
+    return stmt.all(userId);
+
+}
+
+
+
+module.exports = {
+    createLoginRecord,
+    getLoginHistory
+};
