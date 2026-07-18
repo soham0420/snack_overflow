@@ -17,4 +17,18 @@ CREATE TABLE IF NOT EXISTS users (
 
 db.exec(createUsersTable);
 
+// Add 2FA columns if they don't already exist (safe to run every server start)
+const addColumnIfMissing = (columnName, columnDef) => {
+  const existingColumns = db.prepare("PRAGMA table_info(users)").all();
+  const alreadyExists = existingColumns.some((col) => col.name === columnName);
+
+  if (!alreadyExists) {
+    db.exec(`ALTER TABLE users ADD COLUMN ${columnName} ${columnDef}`);
+    console.log(`✅ Added column: ${columnName}`);
+  }
+};
+
+addColumnIfMissing("twoFactorSecret", "TEXT");
+addColumnIfMissing("twoFactorEnabled", "INTEGER DEFAULT 0");
+
 console.log("✅ Users table created");

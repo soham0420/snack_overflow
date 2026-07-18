@@ -9,13 +9,19 @@ const {
   resetPassword,
 } = require("../controllers/authController");
 
+const { protect } = require("../middleware/authMiddleware");
+
+const {
+  setup2FA,
+  verifySetup2FA,
+  verifyLogin2FA,
+} = require("../controllers/twoFactorController");
+
 const {
   registerValidation,
   resetPasswordValidation,
   validate,
 } = require("../utils/passwordValidator");
-
-const { protect } = require("../middleware/authMiddleware");
 
 // Test Route
 router.get("/", (req, res) => {
@@ -40,5 +46,10 @@ router.get("/profile", protect, (req, res) => {
     user: req.user,
   });
 });
+
+// Two-Factor Authentication Routes
+router.post("/2fa/setup", protect, setup2FA);
+router.post("/2fa/verify-setup", protect, verifySetup2FA);
+router.post("/2fa/login-verify", verifyLogin2FA);
 
 module.exports = router;

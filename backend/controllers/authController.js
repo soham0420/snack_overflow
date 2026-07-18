@@ -90,6 +90,16 @@ const login = async (req, res) => {
       });
     }
 
+    // If 2FA is enabled, don't issue the token yet — ask for the code first
+    if (user.twoFactorEnabled) {
+      return res.status(200).json({
+        success: true,
+        twoFactorRequired: true,
+        message: "Password correct. Enter your 2FA code to complete login.",
+        email: user.email,
+      });
+    }
+
     // Generate JWT
     const token = jwt.sign(
       {
