@@ -5,17 +5,17 @@ function generateSecurityInsights(data) {
 
 
     // Device status
-    if (data.device === "new") {
+if (data.newDevice) {
 
-        insights.push("Unknown Device ❌");
-        recommendations.push("Review active sessions");
+    insights.push("New Device Detected ❌");
+    recommendations.push("Review active sessions");
 
-    }
-    else {
+}
+else {
 
-        insights.push("Known Device ✅");
+    insights.push("Known Device ✅");
 
-    }
+}
 
 
     // Location status

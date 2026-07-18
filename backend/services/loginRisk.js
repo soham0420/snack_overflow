@@ -4,19 +4,20 @@ function calculateLoginRisk(loginData) {
     let reasons = [];
 
     const {
-        device,
-        location,
-        loginTime,
-        failedAttempts,
-        vpnDetected
-    } = loginData;
+    device,
+    location,
+    loginTime,
+    failedAttempts,
+    vpnDetected,
+    newDevice
+} = loginData;
 
 
-    // New device check
-    if (device === "new") {
-        riskScore += 30;
-        reasons.push("Unknown device");
-    }
+    // Trusted device check
+if (newDevice) {
+    riskScore += 30;
+    reasons.push("New device detected");
+}
 
 
     // Different location check
