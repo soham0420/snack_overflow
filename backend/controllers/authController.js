@@ -1,5 +1,7 @@
 const bcrypt = require("bcryptjs");
 const db = require("../database/db");
+const crypto = require("crypto");
+const jwt = require("jsonwebtoken");
 
 // Register
 const register = async (req, res) => {
@@ -62,8 +64,6 @@ const register = async (req, res) => {
 };
 
 // Login
-const jwt = require("jsonwebtoken");
-
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -133,10 +133,51 @@ const verifyEmail = (req, res) => {
 
 // Forgot Password
 const forgotPassword = (req, res) => {
-  res.json({
-    success: true,
-    message: "Forgot Password API coming soon",
-  });
+  try {
+    const { email } = req.body;
+
+    const user = db
+      .prepare("SELECT * FROM users WHERE email = ?")
+      .get(email);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    // Generate random reset token
+    const resetToken = crypto.randomBytes(32).toString("hex");
+
+    // Token expires in 15 minutes
+    const resetTokenExpiry = new Date(
+      Date.now() + 15 * 60 * 1000
+    ).toISOString();
+
+    // Save token
+    db.prepare(`
+      UPDATE users
+      SET resetToken = ?, resetTokenExpiry = ?
+      WHERE email = ?
+    `).run(resetToken, resetTokenExpiry, email);
+
+    console.log("Reset Token:", resetToken);
+
+    res.status(200).json({
+      success: true,
+      message: "Password reset token generated",
+      resetToken,
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+    });
+  }
 };
 
 // Reset Password
