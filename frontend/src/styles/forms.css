@@ -1,0 +1,23 @@
+form{
+
+    max-width:550px;
+
+    margin:auto;
+
+}
+
+form button{
+
+    width:100%;
+
+    background:#2563EB;
+
+    color:white;
+
+}
+
+.feature-card{
+
+    margin:35px auto;
+
+}

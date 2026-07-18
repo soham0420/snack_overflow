@@ -1,0 +1,73 @@
+.hero{
+
+    text-align:center;
+    padding:80px 20px;
+
+}
+
+.hero h1{
+
+    font-size:56px;
+
+}
+
+.hero p{
+
+    margin-top:20px;
+    color:#CBD5E1;
+    font-size:18px;
+
+}
+
+.hero-buttons{
+
+    margin-top:35px;
+
+}
+
+.hero button{
+
+    background:#2563EB;
+    color:white;
+    margin:10px;
+
+}
+
+.features{
+
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:30px;
+
+    padding:50px;
+
+}
+
+.feature-card{
+
+    width:320px;
+
+    background:#1E293B;
+
+    border-radius:15px;
+
+    padding:30px;
+
+    transition:.3s;
+
+}
+
+.feature-card:hover{
+
+    transform:translateY(-8px);
+
+}
+
+.feature-icon{
+
+    font-size:40px;
+
+    margin-bottom:20px;
+
+}
