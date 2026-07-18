@@ -1,0 +1,80 @@
+.auth-wrap {
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.auth-wrap .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.auth-wrap h2 {
+    font-size: 28px;
+    margin-bottom: 6px;
+}
+
+.auth-subtitle {
+    color: var(--text-muted);
+    font-size: 14.5px;
+    margin-bottom: 28px;
+}
+
+form {
+    max-width: 550px;
+    margin: auto;
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    box-shadow: var(--shadow-card);
+}
+
+form button {
+    width: 100%;
+    margin-top: 26px;
+}
+
+.field-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 18px;
+}
+
+.field-row label {
+    margin-top: 0;
+}
+
+.form-footer-link {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.feature-card {
+    margin: 28px auto 0;
+    max-width: 550px;
+}
+
+/* Risk reasons/insights lists */
+.reason-list {
+    list-style: none;
+    margin-top: 12px;
+}
+
+.reason-list li {
+    padding: 8px 0;
+    border-top: 1px solid var(--border-soft);
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.reason-list li:first-child {
+    border-top: none;
+}

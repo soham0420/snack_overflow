@@ -1,0 +1,177 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 48px 0;
+}
+
+h1, h2, h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 15px;
+}
+
+a {
+    color: var(--primary);
+}
+
+code, .mono {
+    font-family: var(--font-mono);
+}
+
+/* ---- Buttons ---- */
+button {
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    padding: 12px 22px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 15px;
+    background: var(--primary);
+    color: #0A0E14;
+    transition: transform .15s ease, background .15s ease, box-shadow .15s ease;
+}
+
+button:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+button:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+    transform: none;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+}
+
+.btn-ghost:hover {
+    background: var(--surface-raised);
+    border-color: var(--primary);
+}
+
+/* ---- Inputs ---- */
+input, select {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    margin-top: 8px;
+    transition: border-color .15s ease;
+}
+
+input::placeholder {
+    color: var(--text-faint);
+}
+
+input:focus, select:focus {
+    border-color: var(--primary);
+}
+
+label {
+    display: block;
+    margin-top: 18px;
+    font-size: 13px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+
+/* ---- Shared card ---- */
+.feature-card {
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    box-shadow: var(--shadow-card);
+}
+
+/* ---- Status pill (ALLOW / VERIFY / BLOCK) ---- */
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 999px;
+    letter-spacing: .04em;
+}
+
+.status-pill.allow { background: var(--allow-soft); color: var(--allow); }
+.status-pill.verify { background: var(--verify-soft); color: var(--verify); }
+.status-pill.block { background: var(--block-soft); color: var(--block); }
+
+/* ---- Inline alert banner (replaces browser alert()) ---- */
+.alert-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px 16px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    margin-top: 20px;
+    border: 1px solid var(--block);
+    background: var(--block-soft);
+    color: #FFD5D7;
+}
+
+.alert-banner.info {
+    border-color: var(--primary);
+    background: var(--primary-soft);
+    color: #D6E0FF;
+}
+
+.alert-banner.success {
+    border-color: var(--allow);
+    background: var(--allow-soft);
+    color: #C9F5E4;
+}
+
+.helper-text {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-top: 10px;
+}

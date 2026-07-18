@@ -1,0 +1,80 @@
+/* ---- Segmented 6-digit code input ---- */
+.otp-input {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 18px;
+}
+
+.otp-box {
+    width: 46px;
+    height: 56px;
+    margin-top: 0;
+    padding: 0;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0;
+}
+
+.otp-box:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-soft);
+}
+
+.otp-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 18px;
+}
+
+/* ---- Countdown ring (informational: TOTP's 30s refresh window) ---- */
+.otp-ring {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.otp-ring-number {
+    position: absolute;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+/* ---- QR code + manual entry key (2FA setup) ---- */
+.qr-frame {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    margin-top: 16px;
+    background: #FFFFFF;
+    border-radius: var(--radius);
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.manual-key {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin-top: 18px;
+    text-align: center;
+}
+
+.manual-key-value {
+    display: inline-block;
+    padding: 10px 16px;
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 15px;
+    letter-spacing: .08em;
+    word-break: break-all;
+}
