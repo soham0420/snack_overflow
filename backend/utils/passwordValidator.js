@@ -15,6 +15,16 @@ const registerValidation = [
     .withMessage("Password must be at least 8 characters"),
 ];
 
+const resetPasswordValidation = [
+  body("token")
+    .notEmpty()
+    .withMessage("Reset token is required"),
+
+  body("newPassword")
+    .isLength({ min: 8 })
+    .withMessage("Password must be at least 8 characters"),
+];
+
 const validate = (req, res, next) => {
   const errors = validationResult(req);
 
@@ -30,5 +40,6 @@ const validate = (req, res, next) => {
 
 module.exports = {
   registerValidation,
+  resetPasswordValidation,
   validate,
 };

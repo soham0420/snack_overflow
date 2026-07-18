@@ -11,8 +11,11 @@ const {
 
 const {
   registerValidation,
+  resetPasswordValidation,
   validate,
 } = require("../utils/passwordValidator");
+
+const { protect } = require("../middleware/authMiddleware");
 
 // Test Route
 router.get("/", (req, res) => {
@@ -27,6 +30,15 @@ router.post("/register", registerValidation, validate, register);
 router.post("/login", login);
 router.post("/verify-email", verifyEmail);
 router.post("/forgot-password", forgotPassword);
-router.post("/reset-password", resetPassword);
+router.post("/reset-password", resetPasswordValidation, validate, resetPassword);
+
+// Protected Test Route
+router.get("/profile", protect, (req, res) => {
+  res.json({
+    success: true,
+    message: "Token verified successfully",
+    user: req.user,
+  });
+});
 
 module.exports = router;

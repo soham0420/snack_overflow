@@ -181,11 +181,54 @@ const forgotPassword = (req, res) => {
 };
 
 // Reset Password
-const resetPassword = (req, res) => {
-  res.json({
-    success: true,
-    message: "Reset Password API coming soon",
-  });
+const resetPassword = async (req, res) => {
+  try {
+    const { token, newPassword } = req.body;
+
+    const user = db
+      .prepare("SELECT * FROM users WHERE resetToken = ?")
+      .get(token);
+
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid or expired reset token",
+      });
+    }
+
+    // Check token hasn't expired
+    const isExpired = new Date(user.resetTokenExpiry) < new Date();
+
+    if (isExpired) {
+      return res.status(400).json({
+        success: false,
+        message: "Reset token has expired. Please request a new one.",
+      });
+    }
+
+    // Hash new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Save new password, clear reset token fields
+    db.prepare(`
+      UPDATE users
+      SET password = ?, resetToken = NULL, resetTokenExpiry = NULL
+      WHERE id = ?
+    `).run(hashedPassword, user.id);
+
+    res.status(200).json({
+      success: true,
+      message: "Password reset successful. Please login with your new password.",
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+    });
+  }
 };
 
 module.exports = {
