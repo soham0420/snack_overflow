@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "SecureAuth backend - merged auth (Member 1) + AI risk engine (Member 2)",
+  "description": "SecureAuth backend - merged auth (Member 1) + risk engine (Member 2)",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

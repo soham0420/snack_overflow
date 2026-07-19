@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
 import Register from "./pages/Register";
+import RegisterSuccess from "./pages/RegisterSuccess";
 import Login from "./pages/Login";
 import SecurityCheck from "./pages/SecurityCheck";
 import TwoFactorVerify from "./pages/TwoFactorVerify";
@@ -18,6 +19,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/register-success" element={<RegisterSuccess />} />
         <Route path="/login" element={<Login />} />
         <Route path="/security-check" element={<SecurityCheck />} />
         <Route path="/two-factor" element={<TwoFactorVerify />} />

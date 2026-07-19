@@ -9,7 +9,7 @@ function Hero() {
                 <h1>Every login gets a risk score before it gets a session.</h1>
 
                 <p>
-                    SecureAuth AI checks the device, location, and behavior behind
+                    SecureAuth checks the device, location, and behavior behind
                     every sign-in attempt, then decides in real time whether to
                     allow it, ask for extra verification, or block it outright.
                 </p>

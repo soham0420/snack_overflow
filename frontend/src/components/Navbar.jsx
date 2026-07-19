@@ -14,7 +14,7 @@ function Navbar() {
     return (
         <nav className="navbar">
             <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-                <h2><span className="brand-mark">//</span> SecureAuth AI</h2>
+                <h2><span className="brand-mark">//</span> SecureAuth</h2>
             </Link>
 
             <div className="nav-links">

@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS users (
     resetToken TEXT,
     resetTokenExpiry TEXT,
 
-    -- Member 2: AI risk + lockout + step-up verification
+    -- Member 2: risk + lockout + step-up verification
     riskScore INTEGER DEFAULT 0,
     failedAttempts INTEGER DEFAULT 0,
     lockUntil TEXT,

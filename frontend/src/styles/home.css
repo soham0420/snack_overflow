@@ -8,18 +8,24 @@
     overflow: hidden;
 }
 
-/* Signature scanline texture — used once, only here */
+/* Signature: a combination-dial of brass ticks, echoing the rotating TOTP
+   code at the heart of the product. Used once, only here. */
 .hero::before {
     content: "";
     position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(
-        180deg,
-        rgba(92, 124, 250, 0.035) 0px,
-        rgba(92, 124, 250, 0.035) 1px,
-        transparent 1px,
-        transparent 3px
+    top: 50%;
+    right: -160px;
+    width: 680px;
+    height: 680px;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    background: repeating-conic-gradient(
+        from 0deg,
+        rgba(200, 155, 74, 0.10) 0deg 1.4deg,
+        transparent 1.4deg 9deg
     );
+    -webkit-mask-image: radial-gradient(circle, black 52%, transparent 76%);
+    mask-image: radial-gradient(circle, black 52%, transparent 76%);
     pointer-events: none;
 }
 
@@ -127,8 +133,16 @@
 }
 
 .feature-icon {
-    font-size: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    font-size: 22px;
     margin-bottom: 16px;
+    border-radius: 50%;
+    background: var(--primary-soft);
+    border: 1px solid var(--border-soft);
 }
 
 .feature-card h3 {

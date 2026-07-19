@@ -62,6 +62,20 @@ form button {
     max-width: 550px;
 }
 
+.confirm-mark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin-bottom: 16px;
+    border-radius: 50%;
+    background: var(--allow-soft);
+    color: var(--allow);
+    font-size: 20px;
+    font-weight: 700;
+}
+
 /* Risk reasons/insights lists */
 .reason-list {
     list-style: none;

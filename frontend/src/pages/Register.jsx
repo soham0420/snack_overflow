@@ -11,7 +11,6 @@ function Register() {
     const [password, setPassword] = useState("");
     const [securityQuestion, setSecurityQuestion] = useState("");
     const [securityAnswer, setSecurityAnswer] = useState("");
-    const [result, setResult] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -32,17 +31,18 @@ function Register() {
                 captchaPassed: true
             });
 
-            setResult(response.data.risk);
+            localStorage.setItem("token", response.data.token);
+            localStorage.setItem("user", JSON.stringify(response.data.user));
+
+            navigate("/register-success", {
+                state: { name, risk: response.data.risk }
+            });
 
         } catch (err) {
             setError(err.response?.data?.message || "Unable to connect to backend");
         } finally {
             setLoading(false);
         }
-    }
-
-    function continueToLogin() {
-        navigate("/login");
     }
 
     return (
@@ -52,7 +52,7 @@ function Register() {
             <div className="container auth-wrap">
                 <span className="eyebrow">Get started</span>
                 <h2>Create account</h2>
-                <p className="auth-subtitle">Every registration is screened by the AI risk engine before it's created.</p>
+                <p className="auth-subtitle">Every registration is screened by the risk engine before it's created.</p>
 
                 <form onSubmit={handleSubmit}>
                     <label>Full name</label>
@@ -115,31 +115,6 @@ function Register() {
                 <p className="form-footer-link">
                     Already have an account? <Link to="/login">Login</Link>
                 </p>
-
-                {result && (
-                    <div className="feature-card">
-                        <h2>Registration successful</h2>
-
-                        <div style={{ display: "flex", alignItems: "center", gap: "14px", margin: "14px 0" }}>
-                            <span className="mono" style={{ fontSize: "32px" }}>{result.riskScore}</span>
-                            <span className={`status-pill ${result.riskLevel === "HIGH" ? "block" : result.riskLevel === "MEDIUM" ? "verify" : "allow"}`}>
-                                {result.riskLevel} RISK
-                            </span>
-                        </div>
-
-                        {result.reasons.length > 0 && (
-                            <ul className="reason-list">
-                                {result.reasons.map((reason, index) => (
-                                    <li key={index}>{reason}</li>
-                                ))}
-                            </ul>
-                        )}
-
-                        <button onClick={continueToLogin} style={{ marginTop: "16px" }}>
-                            Continue to login
-                        </button>
-                    </div>
-                )}
             </div>
 
             <Footer />

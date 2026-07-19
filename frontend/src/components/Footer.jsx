@@ -11,7 +11,7 @@ function Footer() {
             fontSize: "13px",
             fontFamily: "var(--font-mono)"
         }}>
-            <span>SecureAuth AI — built for Snack Overflow</span>
+            <span>SecureAuth — built by Snack Overflow</span>
             <span>Risk engine · JWT auth · Adaptive verification</span>
         </footer>
     );

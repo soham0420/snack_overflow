@@ -148,7 +148,7 @@ function completeLoginOr2FA(user, ctx) {
 }
 
 // ================= REGISTER =================
-// Member 2: AI registration risk scoring + approval phrase
+// Member 2: registration risk scoring + approval phrase
 const register = async (req, res) => {
     try {
         const { name, email, password, typingSpeed, captchaPassed, approvalPhrase } = req.body;
@@ -158,7 +158,7 @@ const register = async (req, res) => {
             return res.status(400).json({ success: false, message: "Email already registered" });
         }
 
-        // AI risk check on the registration attempt
+        // Risk check on the registration attempt
         const risk = calculateRegistrationRisk({ email, typingSpeed, captchaPassed });
 
         // Hash password + approval phrase
@@ -167,7 +167,7 @@ const register = async (req, res) => {
             ? await bcrypt.hash(approvalPhrase, 10)
             : null;
 
-        createUser({
+        const created = createUser({
             name,
             email,
             password: hashedPassword,
@@ -175,10 +175,23 @@ const register = async (req, res) => {
             approvalPhrase: hashedApprovalPhrase
         });
 
+        const newUser = findUserById(created.lastInsertRowid);
+
+        // Log the new account straight in so the next screen (the "you're
+        // registered" page) can offer 2FA setup immediately instead of
+        // sending the person through a separate login first.
+        const token = jwt.sign(
+            { id: newUser.id, email: newUser.email },
+            process.env.JWT_SECRET || "mysecretkey",
+            { expiresIn: "1h" }
+        );
+
         res.status(201).json({
             success: true,
             message: "Registration successful.",
-            risk
+            risk,
+            token,
+            user: { id: newUser.id, name: newUser.name, email: newUser.email }
         });
 
     } catch (err) {
@@ -189,7 +202,7 @@ const register = async (req, res) => {
 
 // ================= LOGIN =================
 // Member 1: base credential check + JWT
-// Member 2: lockout, trusted device, AI login risk, step-up verification
+// Member 2: lockout, trusted device, login risk, step-up verification
 const login = async (req, res) => {
     try {
         const { email, password, device, deviceFingerprint, location, vpnDetected } = req.body;
@@ -256,7 +269,7 @@ const login = async (req, res) => {
             locationStatus = "different";
         }
 
-        // AI login risk scoring
+        // Login risk scoring
         const risk = calculateLoginRisk({ device, location: locationStatus, loginTime, failedAttempts, vpnDetected, newDevice });
 
         const loginContext = { device, location, locationStatus, loginTime, failedAttempts, vpnDetected, newDevice, risk };
